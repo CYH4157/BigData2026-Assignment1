@@ -1,5 +1,25 @@
 # BigData2026 Assignment 1 — Analysis of SVD for Fine-Tuning LLMs
 
+## My Submission
+
+Experiments were run on a single NVIDIA H100 NVL GPU per run (not on Kaggle), so training times are not directly comparable to Kaggle T4 runs.
+
+Changes to the provided code:
+
+- `finetune_q1-q3.ipynb`
+  - Q2: training time is measured between the tagged start/end of training in `train_one_task()` and saved as `train_minutes`.
+  - Q3: new `component` options in `pissa_from_linear_exact()`: `start25` (16 values from the 25% position), `start50` (from the 50% position) and `bottom` (bottom 16 values).
+  - Runs outside Kaggle: results go to `outputs/Assignment1`, and the Hugging Face token is read from `hf auth login` instead of Kaggle Secrets.
+- `finetune_q4.ipynb`
+  - Q4: full SVD of `q_proj` in layers 0, 7, 15, minimum rank for 50% cumulative energy, and the cumulative-energy / singular-value plots.
+- `scripts/`: helpers used to run each experiment as its own copy of the notebook on one GPU (`make_run_nb.py` sets `MANUAL_RUNS` / `RUN_FRESH_BASELINE`, `run_queue.sh` executes them).
+
+Results:
+
+- `results/executed_notebooks/`: the executed notebook of every run (with outputs).
+- `results/metrics/`: accuracy, training time and training history of every run (`all_results.csv` combines them).
+- `results/figures/`: Q3 bar charts and Q4 plots.
+
 This repository contains the implementation code modified based on the paper **PiSSA (Principal Singular Values and Singular Vectors Adaptation)** published at NeurIPS 2024 (For full paper information, please refer to "References").  
 
 The code is adapted from the original PiSSA implementation and modified to study how different parts of the singular-value spectrum affect low-rank fine-tuning.
